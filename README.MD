@@ -12,7 +12,7 @@
 
 ---
 ## Introduction
-These are ARIO dataset tools. It includes data collection, data saving, and data publishing code. The data is saved in a fixed format. For details on the format, see Directory structure translation.
+These are ARIO dataset tools. Data collection, data saving, and data publishing codes are included. The data is saved in a fixed format. For details on the format, see Directory structure translation.
 
 ## Testing environment
 
