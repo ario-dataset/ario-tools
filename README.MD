@@ -144,6 +144,8 @@ shutting down processing monitor...
 done
 ```
 
+**Note: If there is no data in the topic, the terminal output will be stuck, you need to use Ctrl+C to exit.**
+
 ## Directory structure translation
 
 For example, dataset number 0 collected:
@@ -208,6 +210,8 @@ episode0
 
 [Example data](https://huggingface.co/datasets/agilexrobotics/ARIO)
 
+## How to add sensors tailored to your needs
+
 ## Synchronize the timestamps of the data
 
 ```shell
@@ -221,3 +225,15 @@ The source code is released under [Apache-2.0](https://www.apache.org/licenses/L
 ## Contributions
 
 [Agilex robotics](https://github.com/agilexrobotics)
+
+## TODO list
+
+|TODO|state|
+|---|---|
+|增加更多的硬件设备支持，比如2d雷达、3d雷达|❌|
+|增加触觉和力控消息支持|❌|
+|增加web-ui，支持可视化采集数据，降低采集的数据的角度难度|❌|
+
+## Contact us
+
+![alt text](.assert/weixin.JPG)
