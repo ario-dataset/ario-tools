@@ -103,7 +103,6 @@ public:
 
     std::thread* keyboardInterruptCheckingThread;
     std::thread* monitoringThread;
-    std::thread* joiningThread;
     bool keyboardInterrupt = false;
     bool captureStop = false;
     std::mutex captureStopMtx;
@@ -210,22 +209,12 @@ public:
         }
         keyboardInterruptCheckingThread = new std::thread(&DataCapture::keyboardInterruptChecking, this);
         monitoringThread = new std::thread(&DataCapture::monitoring, this);
-        joiningThread = new std::thread(&DataCapture::joining, this);
     }
     /**
      * @brief join thread
      * 
      */
-    void join(){
-        joiningThread->join();
-        delete joiningThread;
-        joiningThread = nullptr;
-    }
-    /**
-     * @brief joining
-     * 
-     */
-    void joining(){
+        void join(){
         for(int i = 0; i < cameraColorNames.size(); i++){
             cameraColorSavingThreads.at(i)->join();
             delete cameraColorSavingThreads.at(i);
@@ -258,9 +247,10 @@ public:
         }
         keyboardInterruptCheckingThread->join();
         delete keyboardInterruptCheckingThread;
+        keyboardInterruptCheckingThread = nullptr;
         monitoringThread->join();
         delete monitoringThread;
-        ros::shutdown();
+        monitoringThread = nullptr;
     }
     /**
      * @brief cameraColorHandler
@@ -311,11 +301,11 @@ public:
                 if(stop)
                     break;
             }
-            try{
+            try {
                 listener.waitForTransform(cameraColorParentFrames.at(index), msg->header.frame_id, ros::Time(0), ros::Duration(3.0));
                 listener.lookupTransform(cameraColorParentFrames.at(index), msg->header.frame_id, ros::Time(0), transform);
                 break;
-            }catch(tf::TransformException &ex){
+            } catch(tf::TransformException &ex) {
                 ros::Duration(1.0).sleep();
                 continue;
             }
@@ -390,14 +380,11 @@ public:
                 if(stop)
                     break;
             }
-            try
-            {
+            try {
                 listener.waitForTransform(cameraDepthParentFrames.at(index), msg->header.frame_id, ros::Time(0), ros::Duration(3.0));
                 listener.lookupTransform(cameraDepthParentFrames.at(index), msg->header.frame_id, ros::Time(0), transform);
                 break;
-            }
-            catch (tf::TransformException &ex)
-            {
+            } catch (tf::TransformException &ex) {
                 ros::Duration(1.0).sleep();
                 continue;
             }
@@ -472,14 +459,11 @@ public:
                 if(stop)
                     break;
             }
-            try
-            {
+            try {
                 listener.waitForTransform(cameraPointCloudParentFrames.at(index), msg->header.frame_id, ros::Time(0), ros::Duration(3.0));
                 listener.lookupTransform(cameraPointCloudParentFrames.at(index), msg->header.frame_id, ros::Time(0), transform);
                 break;
-            }
-            catch (tf::TransformException &ex)
-            {
+            } catch (tf::TransformException &ex) {
                 ros::Duration(1.0).sleep();
                 continue;
             }
@@ -585,6 +569,8 @@ public:
                     break;
             }
             sensor_msgs::Image msg = cameraColorMsgDeques.at(index).pop_front();
+            if(msg.header.stamp.toSec() == 0)
+                break;
             cv_bridge::CvImagePtr cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
             cv::imwrite(cameraColorDirs.at(index) + "/" + std::to_string(msg.header.stamp.toSec()) + ".png", cv_ptr->image);
         }
@@ -603,6 +589,8 @@ public:
                     break;
             }
             sensor_msgs::Image msg = cameraDepthMsgDeques.at(index).pop_front();
+            if(msg.header.stamp.toSec() == 0)
+                break;
             cv_bridge::CvImagePtr cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::TYPE_16UC1);
             cv::imwrite(cameraDepthDirs.at(index) + "/" + std::to_string(msg.header.stamp.toSec()) + ".png", cv_ptr->image);
         }
@@ -621,6 +609,8 @@ public:
                     break;
             }
             sensor_msgs::PointCloud2 msg = cameraPointCloudMsgDeques.at(index).pop_front();
+            if(msg.header.stamp.toSec() == 0)
+                break;
             pcl::PointCloud<pcl::PointXYZRGB> pointcloud;
             pcl::fromROSMsg(msg, pointcloud);
             pcl::io::savePCDFileBinary(cameraPointCloudDirs.at(index) + "/" + std::to_string(msg.header.stamp.toSec()) + ".pcd", pointcloud);
@@ -640,7 +630,8 @@ public:
                     break;
             }
             sensor_msgs::JointState msg = armJointStateMsgDeques.at(index).pop_front();
-
+            if(msg.header.stamp.toSec() == 0)
+                break;
             Json::Value root;
             Json::Value effort(Json::arrayValue);
             Json::Value position(Json::arrayValue);
@@ -677,7 +668,8 @@ public:
                     break;
             }
             geometry_msgs::PoseStamped msg = armEndPoseMsgDeques.at(index).pop_front();
-
+            if(msg.header.stamp.toSec() == 0)
+                break;
             Json::Value root;
             root["x"] = msg.pose.position.x;
             root["y"] = msg.pose.position.y;
@@ -706,7 +698,8 @@ public:
                     break;
             }
             nav_msgs::Odometry msg = robotBaseVelMsgDeques.at(index).pop_front();
-
+            if(msg.header.stamp.toSec() == 0)
+                break;
             Json::Value root;
             root["linear"]["x"] = msg.twist.twist.linear.x;
             root["linear"]["y"] = msg.twist.twist.linear.y;
@@ -752,15 +745,7 @@ public:
             return;
         }
 
-//        // 将解析的JSON数组转换为C++的std::vector
-//        std::vector<std::string> vec;
-//        for (const auto& item : root) {
-//            vec.push_back(item.asString());
-//        }
         root["instructions"] = result;
-//        for(int i = 0; i < instructions.size(); i++){
-//            root["instruction"][i] = instructions.at(i);
-//        }
         Json::StyledStreamWriter streamWriter;
         std::ofstream file(instructionsDir);
         streamWriter.write(file, root);
@@ -773,12 +758,56 @@ public:
     void keyboardInterruptChecking(){
         std::string line;
         if (std::getline(std::cin, line)) {
-            captureStopMtx.lock();
-            captureStop = true;
-            captureStopMtx.unlock();
-            // ros::shutdown();
+            shutdown();
         }
     }
+    /**
+     * @brief shutdown
+     * 
+     */
+    void shutdown(){
+        captureStopMtx.lock();
+        captureStop = true;
+        captureStopMtx.unlock();
+        for(int i = 0; i < cameraColorNames.size(); i++){
+            subCameraColors.at(i).shutdown();
+            sensor_msgs::Image msg;
+            msg.header.stamp = ros::Time().fromSec(0);
+            cameraColorMsgDeques.at(i).push_back(msg);
+        }
+        for(int i = 0; i < cameraDepthNames.size(); i++){
+            subCameraDepths.at(i).shutdown();
+            sensor_msgs::Image msg;
+            msg.header.stamp = ros::Time().fromSec(0);
+            cameraDepthMsgDeques.at(i).push_back(msg);
+        }
+        for(int i = 0; i < cameraPointCloudNames.size(); i++){
+            subCameraPointClouds.at(i).shutdown();
+            sensor_msgs::PointCloud2 msg;
+            msg.header.stamp = ros::Time().fromSec(0);
+            cameraPointCloudMsgDeques.at(i).push_back(msg);
+        }
+        for(int i = 0; i < armJointStateNames.size(); i++){
+            subArmJointStates.at(i).shutdown();
+            sensor_msgs::JointState msg;
+            msg.header.stamp = ros::Time().fromSec(0);
+            armJointStateMsgDeques.at(i).push_back(msg);
+        }
+        for(int i = 0; i < armEndPoseNames.size(); i++){
+            subArmEndPoses.at(i).shutdown();
+            geometry_msgs::PoseStamped msg;
+            msg.header.stamp = ros::Time().fromSec(0);
+            armEndPoseMsgDeques.at(i).push_back(msg);
+        }
+        for(int i = 0; i < robotBaseVelNames.size(); i++){
+            subRobotBaseVels.at(i).shutdown();
+            nav_msgs::Odometry msg;
+            msg.header.stamp = ros::Time().fromSec(0);
+            robotBaseVelMsgDeques.at(i).push_back(msg);
+        }
+        ros::shutdown();
+    }
+
     /**
      * @brief monitoring
      * 
@@ -887,7 +916,7 @@ int main(int argc, char** argv)
 {
     // 初始化节点
     ros::init(argc, argv, "data_capture");
-    // 床将句柄
+    // 创建句柄
     ros::NodeHandle nh;
     std::string datasetDir;
     int episodeIndex;
