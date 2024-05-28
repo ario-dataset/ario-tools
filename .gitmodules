@@ -1,0 +1,6 @@
+[submodule "src/collect_data/Thirdparty/rapidyaml"]
+	path = src/collect_data/Thirdparty/rapidyaml
+	url = https://github.com/biojppm/rapidyaml.git
+[submodule "src/collect_data/Thirdparty/rapidjson"]
+	path = src/collect_data/Thirdparty/rapidjson
+	url = https://github.com/Tencent/rapidjson.git

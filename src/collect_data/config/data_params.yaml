@@ -1,0 +1,56 @@
+dataInfo:
+
+  camera:
+    color:
+      names: ['left', 'front', 'right']
+      parentFrames: ['camera_l_link', 'camera_f_link', 'camera_r_link']
+      topics: ['/camera_l/color/image_raw', '/camera_f/color/image_raw', '/camera_r/color/image_raw']
+      configTopics: ['/camera_l/color/camera_info', '/camera_f/color/camera_info', '/camera_r/color/camera_info']
+      pubTopics: ['/camera_l/color/image_raw', '/camera_f/color/image_raw', '/camera_r/color/image_raw']
+      pubConfigTopics: ['/camera_l/color/camera_info', '/camera_f/color/camera_info', '/camera_r/color/camera_info']
+      toPublishs: [true, true, true]
+      toSyncs: [true, true, true]
+    depth:
+      names: ['left', 'front', 'right']
+      parentFrames: ['camera_l_link', 'camera_f_link', 'camera_r_link']
+      topics: ['/camera_l/depth/image_raw', '/camera_f/depth/image_raw', '/camera_r/depth/image_raw']
+      configTopics: ['/camera_l/depth/camera_info', '/camera_f/depth/camera_info', '/camera_r/depth/camera_info']
+      pubTopics: ['/camera_l/depth/image_raw', '/camera_f/depth/image_raw', '/camera_r/depth/image_raw']
+      pubConfigTopics: ['/camera_l/depth/camera_info', '/camera_f/depth/camera_info', '/camera_r/depth/camera_info']
+      toPublishs: [true, true, true]
+      toSyncs: [true, true, true]
+    pointCloud:
+      names: ['left', 'front', 'right']
+      parentFrames: ['camera_l_link', 'camera_f_link', 'camera_r_link']
+      topics: ['/camera_l/depth/color/points', '/camera_f/depth/color/points', '/camera_r/depth/color/points']
+      configTopics: ['/camera_l/depth/camera_info', '/camera_f/depth/camera_info', '/camera_r/depth/camera_info']
+      pubTopics: ['/camera_l/depth/color/points', '/camera_f/depth/color/points', '/camera_r/depth/color/points']
+      pubConfigTopics: ['/camera_l/depth/camera_info', '/camera_f/depth/camera_info', '/camera_r/depth/camera_info']
+      toPublishs: [true, true, true]
+      toSyncs: [true, true, true]
+
+  arm:
+    jointState:
+      names: ['masterLeft', 'masterRight', 'puppetLeft', 'puppetRight']
+      topics: ['/master/joint_left', '/master/joint_right', '/puppet/joint_left', '/puppet/joint_right']
+      pubTopics: ['/master/joint_left', '/master/joint_right', '/puppet/joint_left', '/puppet/joint_right']
+      toPublishs: [true, true, true, true]
+      toSyncs: [true, true, true, true]
+    endPose:
+      names: ['masterLeft', 'masterRight', 'puppetLeft', 'puppetRight']
+      topics: ['/master/end_left', '/master/end_right', '/puppet/end_left', '/puppet/end_right']
+      pubTopics: ['/master/end_left', '/master/end_right', '/puppet/end_left', '/puppet/end_right']
+      toPublishs: [true, true, true, true]
+      toSyncs: [true, true, true, true]
+
+  # robotBase:
+  #   vel:
+  #     names: ['wheel']
+  #     topics: ['/odom']
+  #     pubTopics: ['/odom']
+  #     toPublishs: [true, true, true]
+  #     toSyncs: [false]
+
+#datasetDir: '/home/agilex/data'
+#episodeIndex: 0
+#publishRate: 30
