@@ -11,7 +11,9 @@
 </div>
 
 ---
+
 ## Introduction
+
 These are ARIO dataset tools. It includes data collection, data saving, and data publishing code. The data is saved in a fixed format. For details on the format, see Directory structure translation.
 
 ## Testing environment
@@ -45,9 +47,39 @@ cd ario-tools
 catkin_make
 ```
 
-## Required data types
+## Required sensors & data types
 
-`sensor_msgs::Image`,`sensor_msgs::PointCloud2`,`sensor_msgs::JointState`,`sensor_msgs::CameraInfo`,`geometry_msgs::PoseStamped`,`nav_msgs::Odometry`
+hardware:
+
+- Depth camera with RGB x 3
+- Six-degree-of-freedom robotic arm with gripper x 4
+- agilex tracer wheel encoder
+
+sensors type:
+
+- `sensor_msgs::Image`
+- `sensor_msgs::PointCloud2`
+- `sensor_msgs::JointState`
+- `sensor_msgs::CameraInfo`
+- `geometry_msgs::PoseStamped`
+- `nav_msgs::Odometry`
+
+topic name:
+
+- `/camera_l/color/image_raw`
+- `/camera_f/color/image_raw`
+- `/camera_r/color/image_raw`
+- `/camera_l/depth/image_raw`
+- `/camera_f/depth/image_raw`
+- `/camera_r/depth/image_raw`
+- `/master/joint_left`
+- `/master/joint_right`
+- `/puppet/joint_left`
+- `/puppet/joint_right`
+- `/master/end_left`
+- `/master/end_right`
+- `/puppet/end_left`
+- `/puppet/end_right`
 
 ## Run
 
