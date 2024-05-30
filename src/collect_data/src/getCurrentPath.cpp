@@ -77,9 +77,9 @@ std::string getExecutablePath() {
 }
 #endif
 
-// int main() {
-//     std::string path = getExecutablePath();
-//     std::cout << "Executable path: " << path << std::endl;
-//     return 0;
-// }
+int main() {
+    std::string path = getExecutablePath();
+    std::cout << "Executable path: " << path << std::endl;
+    return 0;
+}
 
