@@ -3,7 +3,6 @@ src/CMakeLists.txt
 build/
 devel/
 .vscode/
-src/collect_data/scripts/
 src/collect_data/src/readjson.cpp
 src/collect_data/src/readyaml.cpp
 src/collect_data/config/1.json

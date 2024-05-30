@@ -89,13 +89,14 @@ Run the data collection code.
 # Activate environment variables.
 source source devel/setup.sh
 # Assume it is dataset group 0. You need to specify the path where it is located. The path must already exist; if it does not, an error will be reported.
-roslaunch collect_data run_data_capture.launch episodeIndex:=0 datasetDir:=/workspace
+mkdir /workspace/task0
+roslaunch collect_data run_data_capture.launch episodeIndex:=0 datasetDir:=/workspace/task0
 ```
 
 If successful, the following status will be displayed.
 
 ```shell
-path: /workspace/episode0
+path: /workspace/task0/episode0
 total time: 3.00223
 topic: frame in 1 second / total frame
 /camera_l/color/image_raw: 20 / 65
@@ -210,6 +211,28 @@ episode0
 ```
 
 [Example data](https://huggingface.co/datasets/agilexrobotics/ARIO)
+
+## Synchronize the datasets
+
+Run the following code, specifying the path of the task and the index of the `episodeIndex`. When the dataset index is `-1`, it means that all datasets in the task path will be synchronized.
+
+```shell
+roslaunch data_tools run_data_sync.launch datasetDir:=/workspace/task0 episodeIndex:=-1
+```
+
+After execution, a sync.txt file will be generated in the path of each specific dataset. For example, the image data synchronization index file path: `task0/episode0/camera/color/left/sync.txt`.
+
+## Convert raw data to HDF5 format
+
+Run the following code to generate a data.hdf5 file in the path of the task0 task, which includes all datasets (episode0, episode1, ..., episodeX). This file contains the synchronized joint information and the synchronized index file of the image data.
+
+```shell
+python3 data_to_hdf5_example.py --datasetDir /workspace/task0
+```
+
+## How to load data from an HDF5 file for training
+
+Here's an example of loading files. The paths in the program need to be manually specified as absolute paths. This code snippet does not have any actual functionality; it's just an example program. You can use this example to integrate into your own training code.
 
 ## How to add sensors tailored to your needs
 
