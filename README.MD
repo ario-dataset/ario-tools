@@ -236,12 +236,6 @@ Here's an example of loading files. The paths in the program need to be manually
 
 ## How to add sensors tailored to your needs
 
-## Synchronize the timestamps of the data
-
-```shell
-roslaunch collect_data run_data_sync.launch episodeIndex:=0 datasetDir:=/workspace
-```
-
 ## Licence
 
 The source code is released under [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0.html) license.
@@ -254,9 +248,9 @@ The source code is released under [Apache-2.0](https://www.apache.org/licenses/L
 
 |TODO|state|
 |---|---|
-|增加更多的硬件设备支持，比如2d雷达、3d雷达|❌|
-|增加触觉和力控消息支持|❌|
-|增加web-ui，支持可视化采集数据，降低采集的数据的角度难度|❌|
+|Add support for more hardware devices, such as 2D LiDAR and 3D LiDAR.|❌|
+|Add support for tactile and force control messages.|❌|
+|Add a web UI to support visualizing data collection, reducing the difficulty of collecting data angles.|❌|
 
 ## Contact us
 
