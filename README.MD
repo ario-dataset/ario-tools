@@ -220,7 +220,7 @@ Run the following code, specifying the path of the task and the index of the `ep
 roslaunch data_tools run_data_sync.launch datasetDir:=/workspace/task0 episodeIndex:=-1
 ```
 
-After execution, a sync.txt file will be generated in the path of each specific dataset. For example, the image data synchronization index file path: `task0/episode0/camera/color/left/sync.txt`.
+After execution, a `sync.txt` file will be generated in the path of each specific dataset. For example, the image data synchronization index file path: `task0/episode0/camera/color/left/sync.txt`.
 
 ## Convert raw data to HDF5 format
 
@@ -233,6 +233,10 @@ python3 data_to_hdf5_example.py --datasetDir /workspace/task0
 ## How to load data from an HDF5 file for training
 
 Here's an example of loading files. The paths in the program need to be manually specified as absolute paths. This code snippet does not have any actual functionality; it's just an example program. You can use this example to integrate into your own training code.
+
+```shell
+python3 load_data_example.py
+```
 
 ## How to add sensors tailored to your needs
 
