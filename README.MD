@@ -81,6 +81,39 @@ topic name:
 - `/puppet/end_left`
 - `/puppet/end_right`
 
+## Package file documentation
+
+```shell
+# package name : collect_data
+
+src/
+└── collect_data
+    ├── CMakeLists.txt
+    ├── config
+    │   ├── data_params.yaml
+    │   └── information.yaml
+    ├── include
+    │   ├── blockingDeque.h
+    │   ├── dataUtility.h
+    │   └── getCurrentPath.h
+    ├── launch
+    │   ├── run_data_capture.launch # Run the data collection launch
+    │   ├── run_data_publish.launch
+    │   └── run_data_sync.launch # Synchronize the datasets
+    ├── package.xml
+    ├── scripts
+    │   ├── data_to_hdf5_example.py # Convert raw data to HDF5 format
+    │   └── load_data_example.py # load data from an HDF5 file for training
+    ├── src
+    │   ├── dataCapture.cpp
+    │   ├── dataPublish.cpp
+    │   ├── dataSync.cpp
+    │   └── getCurrentPath.cpp
+    └── Thirdparty # git submodule
+        ├── rapidjson
+        └── rapidyaml
+```
+
 ## Run
 
 Run the data collection code.
