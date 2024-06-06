@@ -291,4 +291,4 @@ The source code is released under [Apache-2.0](https://www.apache.org/licenses/L
 
 ## Contact us
 
-![alt text](.assert/weixin.JPG)
+![alt text](.assert/wxQRCode_6-13.JPG)
