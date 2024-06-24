@@ -121,8 +121,10 @@ Run the data collection code.
 ```shell
 # Activate environment variables.
 source source devel/setup.sh
-# Assume it is dataset group 0. You need to specify the path where it is located. The path must already exist; if it does not, an error will be reported.
+# Assume it is dataset group 0. You need to specify the path where it is located. 
+# The path must already exist; if it does not, an error will be reported.
 mkdir /workspace/task0
+# Note, the path following datasetDir must be an absolute path.
 roslaunch collect_data run_data_capture.launch episodeIndex:=0 datasetDir:=/workspace/task0
 ```
 
