@@ -291,7 +291,7 @@ The source code is released under [Apache-2.0](https://www.apache.org/licenses/L
 |Add support for tactile and force control messages.|❌|
 |Add a web UI to support visualizing data collection, reducing the difficulty of collecting data angles.|❌|
 |Add wandb support, make it easy to trace the training status.|❌|
-|Add LeRobot data format into sport.|❌|
+|Add LeRobot data format into support.|❌|
 
 ## Contact us
 
