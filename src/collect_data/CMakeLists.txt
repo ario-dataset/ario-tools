@@ -159,16 +159,16 @@ target_link_libraries(${PROJECT_NAME}_dataPublish
                       # ryml::ryml
 )
 
-add_executable(${PROJECT_NAME}_pointCloudFilter src/pointCloudFilter.cpp)
-add_dependencies(${PROJECT_NAME}_pointCloudFilter ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
-target_link_libraries(${PROJECT_NAME}_pointCloudFilter 
-                      ${catkin_LIBRARIES} 
-                      ${PCL_LIBRARIES} 
-                      ${OpenCV_LIBRARIES}
-                      libjsoncpp.a 
-                      libusb-1.0.so
-                      # ryml::ryml
-)
+# add_executable(${PROJECT_NAME}_pointCloudFilter src/pointCloudFilter.cpp)
+# add_dependencies(${PROJECT_NAME}_pointCloudFilter ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
+# target_link_libraries(${PROJECT_NAME}_pointCloudFilter 
+#                       ${catkin_LIBRARIES} 
+#                       ${PCL_LIBRARIES} 
+#                       ${OpenCV_LIBRARIES}
+#                       libjsoncpp.a 
+#                       libusb-1.0.so
+#                       # ryml::ryml
+# )
 
 # add_executable(${PROJECT_NAME}_readyaml src/readyaml.cpp src/getCurrentPath.cpp)
 # add_dependencies(${PROJECT_NAME}_readyaml ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
