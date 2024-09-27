@@ -295,4 +295,6 @@ The source code is released under [Apache-2.0](https://www.apache.org/licenses/L
 
 ## Contact us
 
-![alt text](.assert/wxQRCode_6-18.png)
+![alt text](.assert/wxQRCode.jpg)
+
+<Nick.xie@agilex.ai>
